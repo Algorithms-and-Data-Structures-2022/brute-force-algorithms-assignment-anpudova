@@ -25,6 +25,10 @@ namespace assignment {
     // Tip: What if the weight is equal to the max weight? Can we stop the process?
 
     // 0..00, 0..01, 0..10, 0..11, ..., 1..11
+    if (capacity == sum_helper(weights)) {
+      return mask2indices(profits, num_subsets - 1);
+    }
+
     for (int mask = 0; mask < num_subsets; mask++) {  // 2^N
 
       // массив из весов рассматриваемых элементов
@@ -34,6 +38,9 @@ namespace assignment {
       const int curr_weight = sum_helper(masked_weights);
 
       // ... обработка случая превышения емкости рюкзака
+      if (curr_weight > capacity) {
+        continue;
+      }
 
       // массив из "пользы" рассматриваемых элементов
       const auto masked_profits = mask2elems(profits, mask);
@@ -42,11 +49,15 @@ namespace assignment {
       const int curr_profit = sum_helper(masked_profits);
 
       // ... обработка случая нахождения большего значения "пользы"
+      if (curr_profit > best_profit) {
+        best_profit = curr_profit;
+        best_profit_mask = mask;
+      }
     }
 
     // ... возвращение итогового результата: используйте mask2indices;
+    return mask2indices(profits, best_profit_mask);
 
-    return {};
   }
 
 }  // namespace assignment
