@@ -18,7 +18,19 @@ namespace assignment {
     // 2. Внутренний цикл: проверка разрядов битовой маски и генерация подмножества, ассоциирующегося с этой маской
     // 3. Подсчет суммы текущего подмножества, сохранение индексов подмножества с целевой суммой в результат
     // Tips: можно пропустить итерацию, если сумма текущего подмножества стала больше целевой суммы
-
+    for (int m = 0; m < num_subsets; m++) {
+      auto subs = mask2indices(set, m);
+      int curr_sum = 0;
+      for (int p = 0; p < subs.size(); p++) {
+        curr_sum+= set[subs[p]];
+        if (curr_sum > target_sum) {
+          break;
+        }
+      }
+      if (curr_sum == target_sum) {
+        indices.push_back(subs);
+      }
+    }
     return indices;
   }
 
